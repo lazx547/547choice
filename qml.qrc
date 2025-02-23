@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>547rand.ico</file>
+        <file>Qt.png</file>
+    </qresource>
+</RCC>
