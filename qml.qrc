@@ -3,5 +3,8 @@
         <file>main.qml</file>
         <file>547rand.ico</file>
         <file>Qt.png</file>
+        <file>DelButton.qml</file>
+        <file>DelIconButton.qml</file>
+        <file>Ccheckbox.qml</file>
     </qresource>
 </RCC>

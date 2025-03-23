@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Window 2.3
+import GFile 1.2
 
 Window {
     id: window
@@ -15,8 +16,40 @@ Window {
     title: "547抽号器"
     property int sumn:0
     property int nummm: 1
-    function cou(is_lzy){
-        var a=coul(is_lzy)
+    property int sim
+    property var a:[]
+
+    GFile{
+        id:file
+    }
+
+    Component.onCompleted: {
+        file.source="./source.txt"
+        if(file.is("./source.txt"))
+        {
+            var s=file.read()
+            var i=0,l=s.length,j=0
+            do
+            {
+                a.push(s.slice(0,s.indexOf(",")))
+                i=s.indexOf(",")+1
+                s=s.slice(i,l)
+                j++
+            }
+            while(i!=0)
+            sim=j-1
+            console.log(sim)
+        }
+        else
+        {
+            output.tex="未找到文件"
+            c1.enabled=false
+            cn.enabled=false
+        }
+    }
+
+    function cou(){
+        var a=coul()
         if(xh.checked)
             a=a.slice(0,5)
         else if(mz.checked)
@@ -24,132 +57,9 @@ Window {
         return a
     }
 
-    function coul(is_lzy){
-        if(!is_lzy)
-            var a=Math.floor(Math.random() * 58);
-        else
-            var a=Math.floor(Math.random() * 59);
-        switch(a)
-        {
-        case 1:
-            return "54701[name]"
-        case 2:
-            return "54702[name]"
-        case 3:
-            return "54703[name]"
-        case 4:
-            return "54704[name]"
-        case 5:
-            return "54705[name]"
-        case 6:
-            return "54706[name]"
-        case 7:
-            return "54707[name]"
-        case 8:
-            return "54708[name]"
-        case 9:
-            return "54709[name]"
-        case 10:
-            return "54710[name]"
-        case 11:
-            return "54711[name]"
-        case 12:
-            return "54712[name]"
-        case 13:
-            return "54713[name]"
-        case 14:
-            return "54714[name]"
-        case 15:
-            return "54715[name]"
-        case 16:
-            return "54716[name]"
-        case 17:
-            return "54717[name]"
-        case 18:
-            return "54718[name]"
-        case 19:
-            return "54719[name]"
-        case 20:
-            return "54720[name]"
-        case 21:
-            return "54721[name]"
-        case 22:
-            return "54722[name]"
-        case 23:
-            return "54723[name]"
-        case 24:
-            return "54724[name]"
-        case 25:
-            return "54725[name]"
-        case 26:
-            return "54726[name]"
-        case 27:
-            return "54727[name]"
-        case 28:
-            return "54728[name]"
-        case 29:
-            return "54729[name]"
-        case 30:
-            return "54730[name]"
-        case 31:
-            return "54731[name]"
-        case 32:
-            return "54732[name]"
-        case 33:
-            return "54733[name]"
-        case 34:
-            return "54734[name]"
-        case 35:
-            return "54735[name]"
-        case 36:
-            return "54736[name]"
-        case 37:
-            return "54737[name]"
-        case 38:
-            return "54738[name]"
-        case 39:
-            return "54739[name]"
-        case 40:
-            return "54740[name]"
-        case 41:
-            return "54741[name]"
-        case 42:
-            return "54742[name]"
-        case 43:
-            return "54743[name]"
-        case 44:
-            return "54744[name]"
-        case 45:
-            return "54745[name]"
-        case 46:
-            return "54746[name]"
-        case 47:
-            return "54747[name]"
-        case 48:
-            return "54748[name]"
-        case 49:
-            return "54749[name]"
-        case 50:
-            return "54750[name]"
-        case 51:
-            return "54751[name]"
-        case 52:
-            return "54752[name]"
-        case 53:
-            return "54753[name]"
-        case 54:
-            return "54754[name]"
-        case 55:
-            return "54755[name]"
-        case 56:
-            return "54756[name]"
-        case 57:
-            return "54757[name]"
-        case 58:
-            return "54758[name]"
-        default:
-            return cou(lzy.checkState==Qt.Checked)
-        }
+    function coul(){
+        var b=Math.floor(Math.random() * sim)+1
+        return a[b-1]
     }
 
     Rectangle{
@@ -187,7 +97,8 @@ Window {
         y:30
         width: 280
         height: 80
-        Button{
+        DelButton{
+            id:c1
             x:0
             y:0
             width: 100
@@ -196,10 +107,11 @@ Window {
             font.pixelSize: 20
             onClicked: {
                 sumn++
-                output.tex="["+sumn+"]"+cou(lzy.checkState==Qt.Checked)+"\n"+output.tex
+                output.tex="["+sumn+"]"+cou()+"\n"+output.tex
             }
         }
-        Button{
+        DelButton{
+            id:cn
             x:0
             y:40
             width: 100
@@ -210,7 +122,7 @@ Window {
                 for(var i=0;i<nummm;i++)
                 {
                     sumn++
-                    output.tex="["+sumn+"]"+cou(lzy.checkState==Qt.Checked)+"\n"+output.tex
+                    output.tex="["+sumn+"]"+cou()+"\n"+output.tex
                 }
             }
         }
@@ -227,7 +139,7 @@ Window {
                 text:"n="
             }
 
-            Button{
+            DelButton{
                 rotation: 270
                 x:140
                 y:9
@@ -239,7 +151,7 @@ Window {
                     sb.position+=0.0175
                 }
             }
-            Button{
+            DelButton{
                 rotation: 90
                 x:140
                 y:89
@@ -289,7 +201,7 @@ Window {
                 }
             }
         }
-        Button{
+        DelButton{
             x:0
             y:80
             width: 100
@@ -304,8 +216,8 @@ Window {
         Rectangle{
             x:0
             y:131
-            width: 140
-            height: 112
+            width: 160
+            height: 120
             border.color: "#000"
             Text {
                 x:5
@@ -313,93 +225,105 @@ Window {
                 font.pixelSize:15
                 text: "设置"
             }
-            CheckBox{
-                id:lzy
+            Ccheckbox{
+                id:qb
+                width: 150
+                height: 25
                 x:9
                 y:29
-                text: "包括[转班名字]"
-            }
-            RadioButton{
-                id:qb
-                x:9
-                y:49
                 text: "显示学号和名字"
                 checked: true
+                onCheckedChanged: {
+                    if(checked)
+                    {
+                        xh.checked=false
+                        mz.checked=false
+                    }
+
+                }
             }
-            RadioButton{
+            Ccheckbox{
                 id:xh
+                width: 150
+                height: 25
                 x:9
-                y:69
+                y:59
                 text: "只显示学号"
+                onCheckedChanged: {
+                    if(checked)
+                    {
+                        qb.checked=false
+                        mz.checked=false
+                    }
+                }
             }
-            RadioButton{
+            Ccheckbox{
                 id:mz
+                width: 150
+                height: 25
                 x:9
                 y:89
                 text: "只显示名字"
+                onCheckedChanged: {
+                    if(checked)
+                    {
+                        xh.checked=false
+                        qb.checked=false
+                    }
+                }
             }
         }
-        Rectangle{
-            x:150
-            y:131
-            width: 140
-            height: 112
-            border.color: "#000"
-            Text {
-                x:5
-                y:5
-                font.pixelSize:15
-                text: "关于"
-            }
-            Button{
-                x:35
-                y:30
-                width: 70
-                height: 20
-                text: "关于Qt"
-                font.pixelSize: 15
-                onClicked: {
-                    qtinfo.visible=true
+        DelButton{
+            text:"关于"
+            font.pixelSize: 16
+            width: 60
+            x:200
+            y:200
+            height: 20
+            onClicked: about.visible=true
+            Window{
+                id:about
+                width: 300
+                height: 130
+                minimumHeight: height
+                maximumHeight: height
+                minimumWidth: width
+                maximumWidth: width
+                Image {
+                    x:20
+                    y:10
+                    width: 70
+                    height: 70
+                    source: "qrc:/Qt.png"
                 }
-                Window {
-                    id:qtinfo
-                    visible: false
-                    minimumHeight: 470
-                    maximumHeight: 470
-                    minimumWidth: 500
-                    maximumWidth: 500
-                    title: "About Qt"
-                    width: 500
-                    height: 470
-                    Image{
-                        x:10
-                        y:10
-                        width: 80
-                        height: 80
-                        source: "qrc:/Qt.png"
-                    }
-                    Item{
-                        x:100
-                        y:10
-                        width: 380
-                        height: 480
-                        Text{
-                            wrapMode: Text.WordWrap
-                            anchors.fill: parent
-                            text:"This program uses Qt version 6.7.3.\n\nQt is a C++ to olkit for cross-platform application development.\n\nQt provides single-source portability across all major desktop operating syste ms.It is also available for embedded Linux and other embedded and mobile operating systems.\n\nQt is available under multiple licensing options designed to accommodate the needs of our various users.\n\nQt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the tems of GNU (L)GPL.\n\nQt licensed under GNU (L)GPL is appropriate for the development ofQt applications provided you can comply with the terms and conditions of therespective licenses.\n\nPlease see qt.io/licensing for an overview of Qt licensing.\n\nCopyright (C) 2024 The Qt Company Ltd and other contributors.\n\nQt and the Qt logo are trademarks of The Qt Company Ltd.\n\nQt is The Qt Company Ltd product developed as an open source project. See qt.io for more information."
-                        }
-                    }
+                Text{
+                    x:90
+                    y:25
+                    font.pixelSize: 20
+                    text:"Made with Qt6"
                 }
-            }
-            Button{
-                x:35
-                y:60
-                width: 70
-                height: 20
-                text: "源代码"
-                font.pixelSize: 15
-                onClicked: {
-                    Qt.openUrlExternally("https://github.com/lazx547/547choice")
+                Text {
+                    x:90
+                    y:45
+                    text: "(Desktop Qt 6.7.3 MinGW 64-bit)"
+                }
+                DelButton{
+                    text:"源代码"
+                    font.pixelSize: 16
+                    width: 80
+                    x:30
+                    y:80
+                    height: 20
+                    onClicked: Qt.openUrlExternally("https://github.com/lazx547/547choice")
+                }
+                DelButton{
+                    text:"547官网"
+                    font.pixelSize: 16
+                    width: 100
+                    x:170
+                    y:80
+                    height: 20
+                    onClicked: Qt.openUrlExternally("https://lazx547.github.io")
                 }
             }
         }
