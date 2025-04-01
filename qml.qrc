@@ -6,5 +6,7 @@
         <file>DelButton.qml</file>
         <file>DelIconButton.qml</file>
         <file>Ccheckbox.qml</file>
+        <file>CScrollBar.qml</file>
+        <file>GMesenger.qml</file>
     </qresource>
 </RCC>

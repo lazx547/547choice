@@ -4,6 +4,8 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
+#include <QStandardPaths>
+
 GFile::GFile(QObject *parent) :
     QObject(parent)
 {
@@ -21,7 +23,10 @@ QString GFile::read()
 
     return content;
 }
-
+QString GFile::getDesktop()
+{
+    return QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+}
 bool GFile::write(const QString& data)
 {
     QFile file(m_source);

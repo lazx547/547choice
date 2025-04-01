@@ -3,7 +3,6 @@ import QtQuick.Controls
 
 Item {
     id: control
-
     property bool animationEnabled: true
         property bool effectEnabled: true
     property int radiusBg: 6
@@ -32,6 +31,7 @@ Item {
         text: text
         font.pixelSize: 16
         color: "#000000"
+        Behavior on color{ NumberAnimation {duration: 300 } }
     }
     Rectangle{
         x:1
@@ -43,6 +43,7 @@ Item {
         border.width: 1
         radius: 6
         color: colorBg
+        Behavior on color{ NumberAnimation {duration: 300 } }
     }
     MouseArea{
         id:mouse
@@ -58,6 +59,9 @@ Item {
             border_.border.color="#000"
             text_.color="#000000"
         }
-
     }
+    Accessible.role: Accessible.RadioButton
+    Accessible.name: control.contentDescription
+    Accessible.description: control.contentDescription
+    Accessible.onPressAction: control.clicked();
 }

@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import DelegateUI.Controls 1.0
+import QtQuick.Controls.Basic
 
 Button {
     id: control

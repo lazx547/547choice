@@ -16,6 +16,7 @@ public:
     Q_INVOKABLE bool is(const QString& source);
     Q_INVOKABLE void create(const QString& source);
     Q_INVOKABLE QString getUser();
+    Q_INVOKABLE QString getDesktop();
     Q_INVOKABLE void setSource(const QString& source) { m_source = source; };
     Q_INVOKABLE QString source() { return m_source; }
     QString m_source;

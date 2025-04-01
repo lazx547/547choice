@@ -1,15 +1,18 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.3
-import QtQuick.Window 2.3
-import GFile 1.2
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Window
+import GFile
+import QtQuick.Dialogs
+import QtQuick.Controls.Basic
+import DelegateUI.Controls 1.0
 
 Window {
     id: window
-    visible: true
     minimumHeight: 300
     maximumHeight: 300
-    minimumWidth: 650
-    maximumWidth: 650
+    minimumWidth: 580
+    maximumWidth: 580
+    visible:true
     width: 650
     height: 300
     color: "white"
@@ -18,9 +21,33 @@ Window {
     property int nummm: 1
     property int sim
     property var a:[]
+    property int num_xh
+
+    GMesenger{
+        id:mesenge
+        z:46578
+        width: parent.width-40
+        x:20
+        y:20
+        onFocusChanged: {
+            if(!mesenge.focus)
+                mesenge.enabled=false
+        }
+    }
 
     GFile{
         id:file
+        function save(){
+            source=getDesktop()+"/547output"+ Qt.formatDateTime(new Date(), "yy-mm-dd-hh-mm-ss")+".txt"
+            write(output.text)
+            mesenge.show("已导出到"+source,5000)
+        }
+    }
+
+    MouseArea{
+        anchors.fill: parent
+        z:-1
+        onClicked: mesenge.enabled=false
     }
 
     Component.onCompleted: {
@@ -28,6 +55,18 @@ Window {
         if(file.is("./source.txt"))
         {
             var s=file.read()
+            num_xh=s.slice(0,s.indexOf(","))
+            s=s.slice(s.indexOf(",")+1,s.length)
+            var otherinfo=""
+            if(num_xh==-1)
+            {
+                qb.checked=true
+                qb.enabled=false
+                xh.enabled=false
+                mz.enabled=false
+                otherinfo="，没有学号"
+            }
+
             var i=0,l=s.length,j=0
             do
             {
@@ -38,11 +77,11 @@ Window {
             }
             while(i!=0)
             sim=j-1
-            console.log(sim)
+            mesenge.show("成功读取文件，共"+sim+"人"+otherinfo,3000)
         }
         else
         {
-            output.tex="未找到文件"
+            mesenge.show("未找到文件",3000)
             c1.enabled=false
             cn.enabled=false
         }
@@ -51,9 +90,9 @@ Window {
     function cou(){
         var a=coul()
         if(xh.checked)
-            a=a.slice(0,5)
+            a=a.slice(0,num_xh)
         else if(mz.checked)
-            a=a.slice(5,a.length)
+            a=a.slice(num_xh,a.length)
         return a
     }
 
@@ -82,6 +121,7 @@ Window {
                 text: ""
                 horizontalAlignment: Text.Center
                 font.pixelSize: 30
+                color: "black"
                 background: Rectangle{
                     color: "#E8E8E8"
                     x:0
@@ -89,14 +129,20 @@ Window {
                     width: 280
                     height: 280
                 }
+                onFocusChanged: mesenge.enabled=false
             }
         }
     }
     Item{
         x:350
-        y:30
+        y:18
         width: 280
         height: 80
+        MouseArea{
+            anchors.fill: parent
+            z:-1
+            onClicked: mesenge.enabled=false
+        }
         DelButton{
             id:c1
             x:0
@@ -112,94 +158,30 @@ Window {
         }
         DelButton{
             id:cn
-            x:0
-            y:40
+            x:120
+            y:0
             width: 100
             height: 30
             text: "抽n次"
             font.pixelSize: 20
             onClicked: {
-                for(var i=0;i<nummm;i++)
-                {
-                    sumn++
-                    output.tex="["+sumn+"]"+cou()+"\n"+output.tex
-                }
+                if(nummm>0)
+                    for(var i=0;i<nummm;i++)
+                    {
+                        sumn++
+                        output.tex="["+sumn+"]"+cou()+"\n"+output.tex
+                    }
             }
         }
-        Rectangle{
-            x:110
-            y:-9
-            border.color: "#000"
-            width: 180
-            height: 129
-            Text{
-                x:10
-                y:10
-                font.pixelSize: 20
-                text:"n="
-            }
-
-            DelButton{
-                rotation: 270
-                x:140
-                y:9
-                width: 30
-                height: 30
-                text:"→"
-                font.pixelSize: 20
-                onClicked: {
-                    sb.position+=0.0175
-                }
-            }
-            DelButton{
-                rotation: 90
-                x:140
-                y:89
-                width: 30
-                height: 30
-                text:"→"
-                font.pixelSize: 20
-                onClicked: {
-                    sb.position-=0.0175
-                }
-            }
-
-            ScrollBar{
-                id:sb
-                onPositionChanged: {
-                    if(position===0)
-                        position=0.0175
-                    else if(position===1)
-                        position-=0.0175
-                    nummm=position*57+1
-                    if(nummm<10)
-                        num.text="0"+nummm
-                    else
-                        num.text=nummm
-                }
-                position: 0.0175
-                hoverEnabled: true
-                active:hovered || pressed
-                orientation:Qt.Horizontal
-                width: 120
-                stepSize: 0.0175
-                snapMode: ScrollBar.SnapAlways
-                x:10
-                y:55
-            }
-            Rectangle{
-                x:140
-                y:49
-                width: 30
-                height: 30
-                color: "#E8E8E8"
-                Text{
-                    id:num
-                    text: "01"
-                    horizontalAlignment: Text.Center
-                    font.pixelSize: 25
-                }
-            }
+        CScrollBar{
+            y:45
+            text:"n="
+            id:sb
+            onValueChanged: nummm=value*50
+            maxValue: 50
+            Component.onCompleted: setValue(0.02)
+            width: 120
+            step: 0.02
         }
         DelButton{
             x:0
@@ -213,24 +195,41 @@ Window {
                 sumn=0
             }
         }
+        DelButton{
+            x:120
+            y:80
+            width: 100
+            height:30
+            text: "导出"
+            font.pixelSize: 20
+            onClicked: file.save()
+        }
         Rectangle{
             x:0
-            y:131
-            width: 160
-            height: 120
-            border.color: "#000"
+            y:130
+            width: parent.width-60
+            height: 130
+            border.color: "#80808080"
+            radius: 3
+            MouseArea{
+                anchors.fill: parent
+                z:-1
+                onClicked: mesenge.enabled=false
+            }
             Text {
                 x:5
-                y:5
+                y:8
                 font.pixelSize:15
                 text: "设置"
             }
-            Ccheckbox{
+            DelButton{
                 id:qb
-                width: 150
+                width: parent.width-20
                 height: 25
-                x:9
-                y:29
+                x:10
+                y:35
+                checkable: true
+                type: checked ? DelButtonType.Type_Primary : DelButtonType.Type_Default
                 text: "显示学号和名字"
                 checked: true
                 onCheckedChanged: {
@@ -239,16 +238,18 @@ Window {
                         xh.checked=false
                         mz.checked=false
                     }
-
                 }
+                onClicked: checked=true
             }
-            Ccheckbox{
+            DelButton{
                 id:xh
-                width: 150
+                width: parent.width-20
                 height: 25
-                x:9
-                y:59
+                x:10
+                y:65
+                checkable: true
                 text: "只显示学号"
+                type: checked ? DelButtonType.Type_Primary : DelButtonType.Type_Default
                 onCheckedChanged: {
                     if(checked)
                     {
@@ -256,13 +257,16 @@ Window {
                         mz.checked=false
                     }
                 }
+                onClicked: checked=true
             }
-            Ccheckbox{
+            DelButton{
                 id:mz
-                width: 150
+                width: parent.width-20
                 height: 25
-                x:9
-                y:89
+                x:10
+                y:95
+                checkable: true
+                type: checked ? DelButtonType.Type_Primary : DelButtonType.Type_Default
                 text: "只显示名字"
                 onCheckedChanged: {
                     if(checked)
@@ -271,61 +275,86 @@ Window {
                         qb.checked=false
                     }
                 }
+                onClicked: checked=true
+            }
+            DelButton{
+                text:"关于"
+                font.pixelSize: 16
+                width: 60
+                x:parent.width-width-10
+                y:8
+                height: 20
+                onClicked: about.visible=true
+                Window{
+                    id:about
+                    width: 300
+                    height: 190
+                    minimumHeight: height
+                    maximumHeight: height
+                    minimumWidth: width
+                    maximumWidth: width
+                    Image {
+                        x:20
+                        y:10
+                        width: 70
+                        height: 70
+                        source: "qrc:/Qt.png"
+                    }
+                    Text{
+                        x:90
+                        y:25
+                        font.pixelSize: 20
+                        text:"Made with Qt6"
+                    }
+                    Text {
+                        x:90
+                        y:45
+                        text: "(Desktop Qt 6.7.3 MinGW 64-bit)"
+                    }
+                    DelButton{
+                        text:"源代码"
+                        font.pixelSize: 16
+                        width: 80
+                        x:30
+                        y:80
+                        height: 20
+                        onClicked: Qt.openUrlExternally("https://github.com/lazx547/547choice")
+                    }
+                    DelButton{
+                        text:"547官网"
+                        font.pixelSize: 16
+                        width: 100
+                        x:170
+                        y:80
+                        height: 20
+                        onClicked: Qt.openUrlExternally("https://lazx547.github.io")
+                    }
+                    Rectangle{
+                        border.color: "#80808080"
+                        border.width: 1
+                        radius: 4
+                        x:20
+                        y:110
+                        width: parent.width-40
+                        height: 60
+                        Text{
+                            text:"使用的开源组件:DelButton"
+                            x:10
+                            y:5
+                            font.pixelSize: 16
+                        }
+                        DelButton{
+                            x:80
+                            y:30
+                            text:"访问仓库"
+                            width: 100
+                            height: 20
+                            onClicked: Qt.openUrlExternally("https://github.com/mengps/QmlControls/tree/master/DelButton")
+                        }
+                    }
+                }
             }
         }
-        DelButton{
-            text:"关于"
-            font.pixelSize: 16
-            width: 60
-            x:200
-            y:200
-            height: 20
-            onClicked: about.visible=true
-            Window{
-                id:about
-                width: 300
-                height: 130
-                minimumHeight: height
-                maximumHeight: height
-                minimumWidth: width
-                maximumWidth: width
-                Image {
-                    x:20
-                    y:10
-                    width: 70
-                    height: 70
-                    source: "qrc:/Qt.png"
-                }
-                Text{
-                    x:90
-                    y:25
-                    font.pixelSize: 20
-                    text:"Made with Qt6"
-                }
-                Text {
-                    x:90
-                    y:45
-                    text: "(Desktop Qt 6.7.3 MinGW 64-bit)"
-                }
-                DelButton{
-                    text:"源代码"
-                    font.pixelSize: 16
-                    width: 80
-                    x:30
-                    y:80
-                    height: 20
-                    onClicked: Qt.openUrlExternally("https://github.com/lazx547/547choice")
-                }
-                DelButton{
-                    text:"547官网"
-                    font.pixelSize: 16
-                    width: 100
-                    x:170
-                    y:80
-                    height: 20
-                    onClicked: Qt.openUrlExternally("https://lazx547.github.io")
-                }
-            }
-        }
+
     }
 }
