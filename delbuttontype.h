@@ -11,7 +11,8 @@ namespace DelButtonType {
         Type_Outlined = 1,
         Type_Primary = 2,
         Type_Filled = 3,
-        Type_Text = 4
+        Type_Text = 4,
+        Type_Exit =5
     };
 
     enum class Shape {

@@ -8,5 +8,6 @@
         <file>Ccheckbox.qml</file>
         <file>CScrollBar.qml</file>
         <file>GMesenger.qml</file>
+        <file>main_bar.qml</file>
     </qresource>
 </RCC>

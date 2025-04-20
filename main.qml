@@ -35,6 +35,12 @@ Window {
         }
     }
 
+    MouseArea{
+        anchors.fill: parent
+        z:-1
+        onClicked: mesenge.enabled=false
+    }
+
     GFile{
         id:file
         function save(){
@@ -42,12 +48,6 @@ Window {
             write(output.text)
             mesenge.show("已导出到"+source,5000)
         }
-    }
-
-    MouseArea{
-        anchors.fill: parent
-        z:-1
-        onClicked: mesenge.enabled=false
     }
 
     Component.onCompleted: {

@@ -22,6 +22,8 @@ Button {
             case DelButtonType.Type_Primary: return "white";
             case DelButtonType.Type_Filled: return "#1677ff";
             case DelButtonType.Type_Text: return "#4096ff";
+            case DelButtonType.Type_Exit:
+                return control.down ? "#ff1600" : control.hovered ? "#FF7070" : "#000000"
             default: return "#4096ff";
             }
         } else {
@@ -41,6 +43,8 @@ Button {
                 return control.down ? "#91caff": control.hovered ? "#bae0ff" : "#e6f4ff";
             case DelButtonType.Type_Text:
                 return control.down ? "#91caff": control.hovered ? "#bae0ff" : "#00bae0ff";
+            case DelButtonType.Type_Exit:
+                return control.down ? "#80ff1500" : control.hovered ? "#80ff7070" : "#00000000"
             default: return "white";
             }
         } else {
@@ -55,6 +59,8 @@ Button {
                 return control.down ? "#1677ff" : control.hovered ? "#69b1ff" : "#80808080";
             default:
                 return control.down ? "#1677ff" : control.hovered ? "#69b1ff" : "#4096ff";
+            case DelButtonType.Type_Exit:
+                return control.down ? "#ff1600" : control.hovered ? "#FF7070" : "#80808080"
             }
         } else {
             return "#4096ff";
@@ -90,7 +96,7 @@ Button {
             anchors.centerIn: parent
             color: "transparent"
             border.width: 0
-            border.color: control.enabled ? "#69b1ff" : "transparent"
+            border.color: control.enabled ? type==DelButtonType.Type_Exit? "#FF7070" : "#69b1ff" : "transparent"
             opacity: 0.2
 
             ParallelAnimation {
