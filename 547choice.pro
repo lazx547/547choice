@@ -34,8 +34,3 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     delbuttontype.h \
     gfile.h
-
-DISTFILES += \
-    Ccheckbox.qml \
-    DelButton.qml \
-    DelIconButton.qml

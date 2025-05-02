@@ -9,5 +9,6 @@
         <file>CScrollBar.qml</file>
         <file>GMesenger.qml</file>
         <file>main_bar.qml</file>
+        <file>SourceItem.qml</file>
     </qresource>
 </RCC>

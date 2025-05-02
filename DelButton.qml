@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Controls
-import DelegateUI.Controls 1.0
 import QtQuick.Controls.Basic
 
 Button {
@@ -8,21 +7,21 @@ Button {
 
     property bool animationEnabled: true
         property bool effectEnabled: true
-    property int type: DelButtonType.Type_Default
-    property int shape: DelButtonType.Shape_Default
+    property int type: 1
+    property int shape: 1
     property int radiusBg: 6
     property color colorText: {
         if (enabled) {
             switch(control.type)
             {
-            case DelButtonType.Type_Default:
+            case 1:
                 return control.down ? "#1677ff" : control.hovered ? "#4096ff" : "#000000"
-            case DelButtonType.Type_Outlined:
+            case 2:
                 return control.down ? "#1677ff" : control.hovered ? "#4096ff" : "#1677ff";
-            case DelButtonType.Type_Primary: return "white";
-            case DelButtonType.Type_Filled: return "#1677ff";
-            case DelButtonType.Type_Text: return "#4096ff";
-            case DelButtonType.Type_Exit:
+            case 3: return "white";
+            case 4: return "#1677ff";
+            case 5: return "#4096ff";
+            case 6:
                 return control.down ? "#ff1600" : control.hovered ? "#FF7070" : "#000000"
             default: return "#4096ff";
             }
@@ -34,16 +33,16 @@ Button {
         if (enabled) {
             switch(control.type)
             {
-            case DelButtonType.Type_Default:
-            case DelButtonType.Type_Outlined:
+            case 1:
+            case 2:
                 return control.down ? "#ffffff" : control.hovered ? "#ffffff" : "#00ffffff";
-            case DelButtonType.Type_Primary:
+            case 3:
                 return control.down ? "#0958d9": control.hovered ? "#4096ff" : "#1677ff";
-            case DelButtonType.Type_Filled:
+            case 4:
                 return control.down ? "#91caff": control.hovered ? "#bae0ff" : "#e6f4ff";
-            case DelButtonType.Type_Text:
+            case 5:
                 return control.down ? "#91caff": control.hovered ? "#bae0ff" : "#00bae0ff";
-            case DelButtonType.Type_Exit:
+            case 6:
                 return control.down ? "#80ff1500" : control.hovered ? "#80ff7070" : "#00000000"
             default: return "white";
             }
@@ -55,11 +54,11 @@ Button {
         if (enabled) {
             switch(control.type)
             {
-            case DelButtonType.Type_Default:
+            case 1:
                 return control.down ? "#1677ff" : control.hovered ? "#69b1ff" : "#80808080";
             default:
                 return control.down ? "#1677ff" : control.hovered ? "#69b1ff" : "#4096ff";
-            case DelButtonType.Type_Exit:
+            case 6:
                 return control.down ? "#ff1600" : control.hovered ? "#FF7070" : "#80808080"
             }
         } else {
@@ -96,7 +95,7 @@ Button {
             anchors.centerIn: parent
             color: "transparent"
             border.width: 0
-            border.color: control.enabled ? type==DelButtonType.Type_Exit? "#FF7070" : "#69b1ff" : "transparent"
+            border.color: control.enabled ? type==6? "#FF7070" : "#69b1ff" : "transparent"
             opacity: 0.2
 
             ParallelAnimation {
@@ -133,13 +132,13 @@ Button {
             width: realWidth
             height: realHeight
             anchors.centerIn: parent
-            radius: control.shape == DelButtonType.Shape_Default ? control.radiusBg : height * 0.5
+            radius: control.shape == 1 ? control.radiusBg : height * 0.5
             color: control.colorBg
-            border.width: (control.type == DelButtonType.Type_Filled || control.type == DelButtonType.Type_Text) ? 0 : 1
+            border.width: (control.type == 4 || control.type == 5) ? 0 : 1
             border.color: control.enabled ? control.colorBorder : "transparent"
 
-            property real realWidth: control.shape == DelButtonType.Shape_Default ? parent.width : parent.height
-            property real realHeight: control.shape == DelButtonType.Shape_Default ? parent.height : parent.height
+            property real realWidth: control.shape == 1 ? parent.width : parent.height
+            property real realHeight: control.shape == 1 ? parent.height : parent.height
 
             Behavior on color { enabled: control.animationEnabled; ColorAnimation { duration: 200 } }
             Behavior on border.color { enabled: control.animationEnabled; ColorAnimation { duration: 200 } }
