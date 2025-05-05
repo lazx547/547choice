@@ -34,8 +34,8 @@ Window {
     }
 
     Component.onCompleted: {
-        file.source="./source_.txt"
-        if(file.is("./source_.txt"))
+        file.source="./source_.ini"
+        if(file.is("./source_.ini"))
         {
             var s=file.read()
             var i=0,l=s.length,j=0
@@ -220,8 +220,8 @@ Window {
                     y:3
                     width: 25
                     height: 25
-                    shape: DelButtonType.Shape_Circle
-                    type:DelButtonType.Type_Exit
+                    shape: DelButtonType.Shape_Circle+1
+                    type:DelButtonType.Type_Exit+1
                     text: "×"
                     font.pixelSize: 20
                     padding: 0
@@ -237,20 +237,20 @@ Window {
                     height: 20
                     y:35
                     font.pixelSize: 15
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter+1
+                    verticalAlignment: Text.AlignVCenter+1
                 }
                 DelButton{
                     x:50
                     y:70
                     width: 40
                     height: 40
-                    shape: DelButtonType.Shape_Circle
-                    type:DelButtonType.Type_Filled
+                    shape: DelButtonType.Shape_Circle+1
+                    type:DelButtonType.Type_Filled+1
                     text: "1"
                     onClicked: {
                         win.hide()
-                        win2.show(1)
+                        win2.show(1,true)
                     }
                 }
                 DelButton{
@@ -258,12 +258,12 @@ Window {
                     y:70
                     width: 40
                     height: 40
-                    shape: DelButtonType.Shape_Circle
-                    type:DelButtonType.Type_Filled
+                    shape: DelButtonType.Shape_Circle+1
+                    type:DelButtonType.Type_Filled+1
                     text: "2"
                     onClicked: {
                         win.hide()
-                        win2.show(2)
+                        win2.show(2,true)
                     }
                 }
                 DelButton{
@@ -271,12 +271,12 @@ Window {
                     y:70
                     width: 40
                     height: 40
-                    shape: DelButtonType.Shape_Circle
-                    type:DelButtonType.Type_Filled
+                    shape: DelButtonType.Shape_Circle+1
+                    type:DelButtonType.Type_Filled+1
                     text: "3"
                     onClicked: {
                         win.hide()
-                        win2.show(3)
+                        win2.show(3,true)
                     }
                 }
                 DelButton{
@@ -284,12 +284,12 @@ Window {
                     y:130
                     width: 40
                     height: 40
-                    shape: DelButtonType.Shape_Circle
-                    type:DelButtonType.Type_Filled
+                    shape: DelButtonType.Shape_Circle+1
+                    type:DelButtonType.Type_Filled+1
                     text: "4"
                     onClicked: {
                         win.hide()
-                        win2.show(4)
+                        win2.show(4,true)
                     }
                 }
                 DelButton{
@@ -297,12 +297,12 @@ Window {
                     y:130
                     width: 40
                     height: 40
-                    shape: DelButtonType.Shape_Circle
-                    type:DelButtonType.Type_Filled
+                    shape: DelButtonType.Shape_Circle+1
+                    type:DelButtonType.Type_Filled+1
                     text: "5"
                     onClicked: {
                         win.hide()
-                        win2.show(5)
+                        win2.show(5,true)
                     }
                 }
                 DelButton{
@@ -310,12 +310,12 @@ Window {
                     y:130
                     width: 40
                     height: 40
-                    shape: DelButtonType.Shape_Circle
-                    type:DelButtonType.Type_Filled
+                    shape: DelButtonType.Shape_Circle+1
+                    type:DelButtonType.Type_Filled+1
                     text: "6"
                     onClicked: {
                         win.hide()
-                        win2.show(6)
+                        win2.show(6,true)
                     }
                 }
             }
@@ -346,7 +346,7 @@ Window {
                 name.push("")
         }
 
-        function show(n){
+        function show(n,i){
             if(n>0)
             {
                 num=n
@@ -358,8 +358,10 @@ Window {
                     data.text+=name[num-n]
                 }
             }
-            win2.x=sys_width/2-width/2
-            win2.y=sys_height/2-height/2
+            if(i){
+                win2.x=sys_width/2-width/2
+                win2.y=sys_height/2-height/2
+            }
             win2.visible=true
             win2_r.enabled=true
         }
@@ -416,8 +418,8 @@ Window {
                     y:3
                     width: 25
                     height: 25
-                    shape: DelButtonType.Shape_Circle
-                    type:DelButtonType.Type_Exit
+                    shape: DelButtonType.Shape_Circle+1
+                    type:DelButtonType.Type_Exit+1
                     text: "×"
                     font.pixelSize: 20
                     padding: 0
@@ -432,7 +434,7 @@ Window {
                     y:3
                     width: 25
                     height: 25
-                    shape: DelButtonType.Shape_Circle
+                    shape: DelButtonType.Shape_Circle+1
                     text: "-"
                     font.pixelSize: 25
                     padding: 0
@@ -457,12 +459,12 @@ Window {
                     y:150
                     width: 130
                     height: 25
-                    type:DelButtonType.Type_Primary
+                    type:DelButtonType.Type_Primary+1
                     text: "重新抽号"
                     font.pixelSize: 18
                     radiusBg: 13
                     onClicked: {
-                        win2.show(win2.num)
+                        win2.show(win2.num,false)
                     }
                 }
             }
@@ -515,7 +517,7 @@ Window {
                 if(win3.x==win3.x0 && win3.y==win3.y0)
                 {
                     win3.hide()
-                    win2.show(-1)
+                    win2.show(-1,false)
                 }
             }
             onPositionChanged: {
@@ -581,8 +583,8 @@ Window {
                     y:2.5
                     width: 25
                     height: 25
-                    shape: DelButtonType.Shape_Circle
-                    type:DelButtonType.Type_Exit
+                    shape: DelButtonType.Shape_Circle+1
+                    type:DelButtonType.Type_Exit+1
                     text: "×"
                     font.pixelSize: 20
                     padding: 0
