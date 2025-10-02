@@ -1,3 +1,5 @@
+已合并至[547DesktopTool](https://github.com/lazx547/547DesktopTool)，此仓库不再更新
+
 # 547的抽号器  
 
 环境：Qt6.8.3_MinGW_64_bit  
